@@ -40,6 +40,141 @@
     </nav>
   </header>
 
+  <main id="conteudo" class="container py-5">
+    <h1>Agendar atendimento</h1>
+    <p class="lead text-body-secondary">
+      Escolha o serviço, o dia e o horário. Atendemos de segunda a sábado, das 8h às 18h,
+      com 2 computadores por horário.
+    </p>
+
+    <!-- Layout em CSS Grid: formulário, lista e registro de atividades -->
+    <div class="layout-agendar mt-4">
+
+      <!-- 1. Formulário (adicionar e editar) -->
+      <section class="area-form card card-body shadow-sm" aria-labelledby="titulo-form">
+        <h2 id="titulo-form" class="h4">Novo agendamento</h2>
+
+        <!-- Mensagem de sucesso/erro que vai ser preenchida pelo JS -->
+        <div id="mensagem-form" role="status" aria-live="polite" hidden></div>
+
+        <!-- Aviso de privacidade (LGPD) -->
+        <div class="alert alert-warning small">
+          <strong>Aviso de privacidade:</strong> pedimos só o necessário para o atendimento.
+          <strong>Nunca</strong> escreva CPF, senhas ou números de documentos aqui.
+          Neste protótipo, os dados ficam salvos apenas neste navegador.
+          <a href="sobre.html#privacidade">Leia o aviso completo</a>.
+        </div>
+
+        <!-- Validação nativa do HTML5 (required, pattern, min, max e tal) + regras extras que vão vir do JS -->
+        <form id="form-agendamento" action="#" method="post">
+
+          <div class="mb-3">
+            <label for="apelido" class="form-label">Como podemos te chamar? <span class="small text-body-secondary">(obrigatório)</span></label>
+            <input type="text" id="apelido" name="apelido" class="form-control" autocomplete="nickname"
+                   required minlength="2" maxlength="40" pattern="[A-Za-zÀ-ÿ ]+"
+                   title="Use só letras e espaços" aria-describedby="ajuda-apelido erro-apelido">
+            <div id="ajuda-apelido" class="form-text">Pode ser um apelido. Ex.: Dona Cida.</div>
+            <div id="erro-apelido" class="invalid-feedback"></div>
+          </div>
+
+          <div class="mb-3">
+            <label for="contato" class="form-label">WhatsApp para lembrete <span class="small text-body-secondary">(opcional)</span></label>
+            <input type="tel" id="contato" name="contato" class="form-control" autocomplete="tel"
+                   inputmode="tel" maxlength="16" placeholder="(11) 91234-5678"
+                   pattern="\(?\d{2}\)?\s?9\d{4}-?\d{4}"
+                   title="Use o formato (11) 91234-5678" aria-describedby="ajuda-contato erro-contato">
+            <div id="ajuda-contato" class="form-text">Só se quiser receber um lembrete um dia antes.</div>
+            <div id="erro-contato" class="invalid-feedback"></div>
+          </div>
+
+          <div class="mb-3">
+            <label for="servico" class="form-label">Serviço <span class="small text-body-secondary">(obrigatório)</span></label>
+            <select id="servico" name="servico" class="form-select" required aria-describedby="erro-servico">
+              <option value="">Escolha um serviço</option>
+              <option value="gov-br">Conta gov.br</option>
+              <option value="inss">Meu INSS</option>
+              <option value="carteira-trabalho">Carteira de Trabalho Digital</option>
+              <option value="curriculo">Currículo e vagas de emprego</option>
+              <option value="contas">2ª via de contas</option>
+              <option value="impressao">Impressão e digitalização</option>
+            </select>
+            <div id="erro-servico" class="invalid-feedback"></div>
+          </div>
+
+          <!-- Data e horário lado a lado a partir do tablet (grid do Bootstrap) -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="data" class="form-label">Dia <span class="small text-body-secondary">(obrigatório)</span></label>
+              <!-- min e max definidos pelo JS: de hoje até 60 dias -->
+              <input type="date" id="data" name="data" class="form-control" required
+                     aria-describedby="ajuda-data erro-data">
+              <div id="ajuda-data" class="form-text">Segunda a sábado.</div>
+              <div id="erro-data" class="invalid-feedback"></div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="horario" class="form-label">Horário <span class="small text-body-secondary">(obrigatório)</span></label>
+              <!-- intervalos de 30 minutos -->
+              <input type="time" id="horario" name="horario" class="form-control" required
+                     min="08:00" max="17:30" step="1800"
+                     aria-describedby="ajuda-horario erro-horario">
+              <div id="ajuda-horario" class="form-text">De 08:00 às 17:30, de 30 em 30 min.</div>
+              <div id="erro-horario" class="invalid-feedback"></div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="observacao" class="form-label">Precisa de algo especial? <span class="small text-body-secondary">(opcional)</span></label>
+            <textarea id="observacao" name="observacao" class="form-control" rows="3" maxlength="200"
+                      aria-describedby="contador-observacao erro-observacao"
+                      placeholder="Ex.: esqueci a senha do gov.br; uso cadeira de rodas."></textarea>
+            <div id="contador-observacao" class="form-text text-end">0/200 caracteres</div>
+            <div id="erro-observacao" class="invalid-feedback"></div>
+          </div>
+
+          <div class="form-check mb-3">
+            <input type="checkbox" id="consentimento" name="consentimento" class="form-check-input" required
+                   aria-describedby="erro-consentimento">
+            <label for="consentimento" class="form-check-label">
+              Li o aviso de privacidade e concordo com o uso desses dados só para o agendamento.
+            </label>
+            <div id="erro-consentimento" class="invalid-feedback"></div>
+          </div>
+
+          <!-- d-grid: botões ocupam a largura toda no celular; d-md-flex: lado a lado a partir do tablet -->
+          <div class="d-grid gap-2 d-md-flex">
+            <button type="submit" id="btn-salvar" class="btn btn-primary">Agendar</button>
+            <button type="button" id="btn-cancelar-edicao" class="btn btn-outline-secondary" hidden>Cancelar edição</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- 2. Lista de agendamentos -->
+      <section class="area-lista card card-body shadow-sm" aria-labelledby="titulo-lista">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 id="titulo-lista" class="h4 mb-0">Agendamentos</h2>
+          <p id="total-agendamentos" class="small text-body-secondary mb-0" aria-live="polite">0 agendamento(s)</p>
+        </div>
+
+        <!-- Itens que serão criados pelo JS -->
+        <ul id="lista-agendamentos" class="list-unstyled d-flex flex-column gap-3 mb-0"></ul>
+        <p id="lista-vazia" class="fst-italic text-body-secondary mb-0">Nenhum agendamento ainda. Preencha o formulário para criar o primeiro.</p>
+      </section>
+
+      <!-- 3. Registro de atividades -->
+      <aside class="area-registros card card-body shadow-sm" aria-labelledby="titulo-registros">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h2 id="titulo-registros" class="h4 mb-0">Registro de atividades</h2>
+          <button type="button" id="btn-limpar-registros" class="btn btn-sm btn-outline-secondary">Limpar</button>
+        </div>
+        <p class="form-text mt-0">Data e hora, ação e resultado de cada operação (mais recente primeiro).</p>
+        <ol id="lista-registros" class="lista-registros list-unstyled small mb-0" aria-live="polite"></ol>
+        <p id="registros-vazio" class="fst-italic text-body-secondary mb-0">Nenhuma atividade registrada.</p>
+      </aside>
+
+    </div>
+  </main>
+
   <!-- Rodapé -->
   <footer class="bg-dark text-white py-4">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center">
