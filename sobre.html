@@ -39,6 +39,124 @@
     </nav>
   </header>
 
+  <main id="conteudo">
+
+    <!-- Problema e cidadão -->
+    <section class="container texto-largo py-5" id="problema" aria-labelledby="titulo-sobre">
+      <h1 id="titulo-sobre">Sobre o projeto</h1>
+      <p class="lead text-body-secondary">
+        O Ponto Digital Cidadão transforma a lan house do bairro em um ponto de apoio para
+        serviços públicos digitais.
+      </p>
+
+      <h2 class="mt-4">O problema</h2>
+      <p>
+        Serviços como gov.br, Meu INSS e Carteira de Trabalho Digital passaram a ser
+        feitos principalmente pela internet. Quem não tem computador, tem pouco pacote de dados
+        ou nunca aprendeu a usar essas plataformas acaba dependendo da lan house ou de um
+        parente. Muitas vezes a pessoa chega <strong>sem os documentos certos</strong>, enfrenta
+        fila e precisa voltar outro dia.
+      </p>
+
+      <h2>Quem é o cidadão</h2>
+      <p>
+        Moradores de bairros da periferia e de cidades pequenas, principalmente idosos,
+        pessoas procurando emprego e famílias que recebem benefícios sociais. Essas pessoas
+        têm celular, mas não têm computador, impressora nem experiência com os sistemas.
+      </p>
+    </section>
+
+    <!-- ODS relacionadas -->
+    <section class="py-5 bg-body-tertiary" id="ods" aria-labelledby="titulo-ods">
+      <div class="container">
+        <h2 id="titulo-ods">Objetivos de Desenvolvimento Sustentável (ODS)</h2>
+        <dl class="lista-ods mt-3">
+          <div class="card card-body">
+            <dt>ODS 10: Redução das desigualdades</dt>
+            <dd class="mb-0">Diminui a diferença de acesso a direitos entre quem domina a tecnologia e quem não domina.</dd>
+          </div>
+          <div class="card card-body">
+            <dt>ODS 4: Educação de qualidade</dt>
+            <dd class="mb-0">O atendimento é feito <em>junto</em> com a pessoa, que aprende habilidades digitais básicas.</dd>
+          </div>
+          <div class="card card-body">
+            <dt>ODS 9: Indústria, inovação e infraestrutura</dt>
+            <dd class="mb-0">Amplia o acesso às tecnologias da informação usando uma estrutura que já existe no bairro.</dd>
+          </div>
+          <div class="card card-body">
+            <dt>ODS 11: Cidades e comunidades sustentáveis</dt>
+            <dd class="mb-0">Leva o serviço para perto de casa e evita deslocamentos e viagens perdidas.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Modelo de negócio de impacto -->
+    <section class="container py-5" id="impacto" aria-labelledby="titulo-impacto">
+      <h2 id="titulo-impacto">Como o projeto se sustenta</h2>
+      <p class="lead text-body-secondary">Um negócio de impacto precisa resolver o problema <em>e</em> pagar as próprias contas.</p>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <article class="card card-body h-100 shadow-sm">
+            <h3 class="h5">Receita</h3>
+            <ul class="mb-0">
+              <li>Taxa social por atendimento assistido</li>
+              <li>Impressão e digitalização</li>
+              <li>Convênio com prefeitura/CRAS, que paga o atendimento das famílias encaminhadas</li>
+            </ul>
+          </article>
+        </div>
+        <div class="col-md-4">
+          <article class="card card-body h-100 shadow-sm">
+            <h3 class="h5">Escala</h3>
+            <ul class="mb-0">
+              <li>Outras lan houses e papelarias viram "pontos parceiros"</li>
+              <li>Cada ponto paga uma mensalidade baixa para usar a plataforma</li>
+              <li>O guia de serviços é o mesmo para todos os pontos</li>
+            </ul>
+          </article>
+        </div>
+        <div class="col-md-4">
+          <article class="card card-body h-100 shadow-sm">
+            <h3 class="h5">Como medir o impacto</h3>
+            <ul class="mb-0">
+              <li>Número de atendimentos por mês</li>
+              <li>Porcentagem de casos resolvidos na 1ª visita</li>
+              <li>Pessoas que voltam fazendo o serviço sozinhas</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Aviso de privacidade (LGPD), linkado pelo formulário -->
+    <section class="py-5 bg-body-tertiary" id="privacidade" aria-labelledby="titulo-privacidade">
+      <div class="container texto-largo">
+        <h2 id="titulo-privacidade">Aviso de privacidade</h2>
+        <p>Seguimos a ideia de <strong>coleta mínima</strong> da Lei Geral de Proteção de Dados (LGPD, Lei 13.709/2018): pedimos só o que é necessário para o atendimento.</p>
+
+        <h3 class="h5">O que pedimos e por quê</h3>
+        <ul>
+          <li><strong>Apelido</strong>: para chamar você na hora do atendimento.</li>
+          <li><strong>Serviço, dia e horário</strong>: para reservar o computador e o atendente.</li>
+          <li><strong>WhatsApp (opcional)</strong>: só para o lembrete de véspera.</li>
+          <li><strong>Observação (opcional)</strong>: para nos preparar (ex.: acessibilidade).</li>
+        </ul>
+
+        <h3 class="h5">O que nunca pedimos</h3>
+        <p>CPF, RG, senhas, número de benefício ou dados bancários. Esses dados são usados só na hora, com você presente, e nunca ficam guardados no site.</p>
+
+        <h3 class="h5">Onde os dados ficam</h3>
+        <p>Neste protótipo, os agendamentos ficam salvos <strong>apenas no seu navegador</strong> (localStorage). Nada é enviado para servidores. Use somente dados fictícios.</p>
+
+        <h3 class="h5">Seus direitos</h3>
+        <p class="mb-0">Você pode <a href="agendar.html">editar ou remover</a> qualquer agendamento a qualquer momento.</p>
+      </div>
+    </section>
+
+  </main>
+
   <!-- Rodapé -->
   <footer class="bg-dark text-white py-4">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center">
