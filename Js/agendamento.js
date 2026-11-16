@@ -314,3 +314,137 @@ function sairDaEdicao() {
   botaoSalvar.textContent = "Agendar";
   botaoCancelar.hidden = true;
 }
+
+// -----------------------------------------------------
+// SALVAR NO NAVEGADOR (localStorage)
+// -----------------------------------------------------
+const CHAVE_DADOS = "pontoDigital.agendamentos";
+
+function salvarNoNavegador() {
+  try {
+    localStorage.setItem(CHAVE_DADOS, JSON.stringify(agendamentos));
+  } catch (erro) {
+    console.error(erro);
+    mostrarMensagem("Não foi possível salvar os dados neste navegador.", "danger");
+  }
+}
+
+function carregarDoNavegador() {
+  try {
+    const texto = localStorage.getItem(CHAVE_DADOS);
+    if (texto === null) return;
+
+    const dados = JSON.parse(texto);
+    // Só aceita itens com o formato esperado (os dados podem ter sido alterados à mão)
+    agendamentos = dados.filter(function (item) {
+      return typeof item.id === "number" &&
+        typeof item.apelido === "string" &&
+        Object.keys(SERVICOS).includes(item.servico) &&
+        /^\d{4}-\d{2}-\d{2}$/.test(item.data) &&
+        /^\d{2}:\d{2}$/.test(item.horario);
+    });
+  } catch (erro) {
+    console.error(erro); // o detalhe técnico fica só no console
+    agendamentos = [];
+    mostrarMensagem("Não foi possível carregar os dados. Tente novamente.", "danger");
+    registrarAtividade("Erro ao carregar os dados salvos", false);
+  }
+}
+
+
+// -----------------------------------------------------
+// EVENTOS
+// -----------------------------------------------------
+formulario.addEventListener("submit", function (evento) {
+  evento.preventDefault();
+
+  try {
+    limparErros();
+    const dados = lerFormulario();
+    const erros = validarFormulario(dados);
+
+    if (Object.keys(erros).length > 0) {
+      mostrarErros(erros);
+      mostrarMensagem("Confira os campos destacados em vermelho.", "danger");
+      registrarAtividade("Tentativa de salvar agendamento com dados inválidos", false);
+      return;
+    }
+
+    if (idEmEdicao === null) {
+      adicionarAgendamento(dados);
+      mostrarMensagem("Pronto, " + dados.apelido + "! Agendamento confirmado: " + descrever(dados) + ".", "success");
+      registrarAtividade("Agendamento adicionado com sucesso (" + descrever(dados) + ")", true);
+    } else {
+      editarAgendamento(idEmEdicao, dados);
+      mostrarMensagem("Agendamento atualizado: " + descrever(dados) + ".", "success");
+      registrarAtividade("Agendamento editado com sucesso (" + descrever(dados) + ")", true);
+    }
+
+    salvarNoNavegador();
+    sairDaEdicao();
+    listarAgendamentos();
+  } catch (erro) {
+    console.error(erro);
+    mostrarMensagem("Não foi possível salvar. Tente novamente.", "danger");
+    registrarAtividade("Erro ao salvar agendamento", false);
+  }
+});
+
+// Um único evento na lista atende todos os botões Editar e Remover
+lista.addEventListener("click", function (evento) {
+  const botao = evento.target.closest("button");
+  if (!botao) return;
+
+  const id = Number(botao.dataset.id);
+
+  if (botao.dataset.acao === "editar") {
+    iniciarEdicao(id);
+    registrarAtividade("Edição iniciada", true);
+  }
+
+  if (botao.dataset.acao === "remover") {
+    if (!confirm("Remover este agendamento? Essa ação não pode ser desfeita.")) {
+      registrarAtividade("Remoção cancelada pelo usuário", true);
+      return;
+    }
+    removerAgendamento(id);
+    if (idEmEdicao === id) {
+      sairDaEdicao();
+    }
+    salvarNoNavegador();
+    listarAgendamentos();
+    mostrarMensagem("Agendamento removido.", "success");
+    registrarAtividade("Agendamento removido com sucesso", true);
+  }
+});
+
+botaoCancelar.addEventListener("click", function () {
+  sairDaEdicao();
+  listarAgendamentos();
+  mostrarMensagem("Edição cancelada. Nada foi alterado.", "info");
+  registrarAtividade("Edição cancelada pelo usuário", true);
+});
+
+botaoLimparRegistros.addEventListener("click", function () {
+  listaRegistros.innerHTML = "";
+  registrosVazio.hidden = false;
+});
+
+campoObservacao.addEventListener("input", function () {
+  contadorObservacao.textContent = campoObservacao.value.length + "/200 caracteres";
+});
+
+
+// -----------------------------------------------------
+// INÍCIO
+// -----------------------------------------------------
+
+// O campo de data só aceita de hoje até 60 dias depois
+const hoje = new Date();
+const limite = new Date();
+limite.setDate(hoje.getDate() + 60);
+campoData.min = dataParaTexto(hoje);
+campoData.max = dataParaTexto(limite);
+
+carregarDoNavegador();
+listarAgendamentos();
