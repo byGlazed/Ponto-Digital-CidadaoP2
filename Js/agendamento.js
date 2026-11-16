@@ -198,3 +198,119 @@ function limparErros() {
     campo.classList.remove("is-invalid");
   });
 }
+
+// -----------------------------------------------------
+// ADICIONAR, LISTAR, EDITAR E REMOVER
+// -----------------------------------------------------
+function adicionarAgendamento(dados) {
+  dados.id = Date.now() + Math.random(); // hora atual + parte aleatória = número único
+  agendamentos.push(dados);
+}
+
+function editarAgendamento(id, dados) {
+  const posicao = agendamentos.findIndex(function (item) {
+    return item.id === id;
+  });
+  dados.id = id;
+  agendamentos[posicao] = dados;
+}
+
+function removerAgendamento(id) {
+  agendamentos = agendamentos.filter(function (item) {
+    return item.id !== id;
+  });
+}
+
+// Monta o <li> de um agendamento.
+// textContent mostra o texto sem interpretar HTML (proteção contra XSS).
+function criarItemDaLista(agendamento) {
+  const item = document.createElement("li");
+  item.className = "card card-body";
+  if (agendamento.id === idEmEdicao) {
+    item.classList.add("border-warning", "border-2"); // destaca o item em edição
+  }
+
+  const titulo = document.createElement("h3");
+  titulo.className = "h5 mb-1";
+  titulo.textContent = agendamento.apelido;
+
+  const servico = document.createElement("p");
+  servico.className = "fw-bold text-primary mb-1";
+  servico.textContent = SERVICOS[agendamento.servico];
+
+  const quando = document.createElement("p");
+  quando.className = "mb-1";
+  quando.textContent = formatarData(agendamento.data) + " às " + agendamento.horario;
+
+  item.append(titulo, servico, quando);
+
+  if (agendamento.observacao) {
+    const observacao = document.createElement("p");
+    observacao.className = "fst-italic text-body-secondary mb-1";
+    observacao.textContent = agendamento.observacao;
+    item.append(observacao);
+  }
+
+  // data-acao e data-id dizem qual botão foi clicado e de qual agendamento
+  const botoes = document.createElement("div");
+  botoes.className = "d-flex gap-2 mt-2";
+  botoes.innerHTML =
+    '<button type="button" class="btn btn-sm btn-outline-primary" data-acao="editar">Editar</button>' +
+    '<button type="button" class="btn btn-sm btn-outline-danger" data-acao="remover">Remover</button>';
+  botoes.querySelectorAll("button").forEach(function (botao) {
+    botao.dataset.id = agendamento.id;
+  });
+  item.append(botoes);
+
+  return item;
+}
+
+function listarAgendamentos() {
+  lista.innerHTML = "";
+
+  // Ordena por data e horário (o mais próximo primeiro)
+  agendamentos.sort(function (a, b) {
+    return (a.data + a.horario).localeCompare(b.data + b.horario);
+  });
+
+  agendamentos.forEach(function (agendamento) {
+    lista.append(criarItemDaLista(agendamento));
+  });
+
+  totalAgendamentos.textContent = agendamentos.length + " agendamento(s)";
+  listaVazia.hidden = agendamentos.length > 0;
+}
+
+// Coloca os dados no formulário e troca para o modo edição
+function iniciarEdicao(id) {
+  const agendamento = agendamentos.find(function (item) {
+    return item.id === id;
+  });
+
+  idEmEdicao = id;
+  campoApelido.value = agendamento.apelido;
+  campoContato.value = agendamento.contato || "";
+  campoServico.value = agendamento.servico;
+  campoData.value = agendamento.data;
+  campoHorario.value = agendamento.horario;
+  campoObservacao.value = agendamento.observacao || "";
+  campoConsentimento.checked = true;
+
+  tituloFormulario.textContent = "Editando agendamento";
+  botaoSalvar.textContent = "Salvar alterações";
+  botaoCancelar.hidden = false;
+  mostrarMensagem("Altere os campos e clique em \"Salvar alterações\".", "info");
+  listarAgendamentos();
+  formulario.scrollIntoView({ behavior: "smooth" });
+}
+
+// Volta o formulário para "Novo agendamento"
+function sairDaEdicao() {
+  idEmEdicao = null;
+  formulario.reset();
+  limparErros();
+  contadorObservacao.textContent = "0/200 caracteres";
+  tituloFormulario.textContent = "Novo agendamento";
+  botaoSalvar.textContent = "Agendar";
+  botaoCancelar.hidden = true;
+}
