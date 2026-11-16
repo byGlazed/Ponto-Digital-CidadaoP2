@@ -3,9 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ponto Digital Cidadão: ajuda presencial na lan house do bairro para acessar gov.br, INSS, Carteira de Trabalho Digital e outros serviços on-line.">
     <title>Ponto Digital Cidadão | Serviços e o que levar</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
+  <!-- Cabeçalho e menu (navbar do Bootstrap) -->
+  <header>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark" aria-label="Menu principal">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">
+          <span class="badge text-bg-warning me-1" aria-hidden="true">PD</span>
+          Ponto Digital Cidadão
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal"
+                aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu-principal">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Início</a></li>
+            <li class="nav-item"><a class="nav-link" href="servicos.html">Serviços e o que levar</a></li>
+            <li class="nav-item"><a class="nav-link" href="agendar.html">Agendar atendimento</a></li>
+            <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre e privacidade</a></li>
+          </ul>
+          <div class="botoes-acessibilidade d-flex flex-wrap gap-2 py-2 py-lg-0 ms-lg-3">
+            <button type="button" id="btn-fonte" class="btn btn-sm btn-outline-light" aria-pressed="false">A+ Aumentar letra</button>
+            <button type="button" id="btn-tema" class="btn btn-sm btn-outline-light">Modo escuro</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+<main id="conteudo">
+
+    <section class="container py-5" aria-labelledby="titulo-servicos">
+      <h1 id="titulo-servicos">Serviços e o que levar</h1>
+      <p class="lead text-body-secondary">
+        Escolha o serviço e confira a lista antes de sair de casa. Levar tudo certo é o que
+        faz o atendimento ser rápido e resolver na primeira visita.
+      </p>
+
+      <!-- Cards de serviços (grid do Bootstrap): 1 por linha no celular, 2 no tablet e 3 no desktop -->
+      <div class="row g-4 mt-2">
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h2 class="card-title h5">Conta gov.br</h2>
+              <p class="card-text">Criar a conta, recuperar a senha esquecida e entender os níveis de acesso (bronze, prata e ouro).</p>
+              <h3 class="h6 text-uppercase text-body-secondary">O que levar</h3>
+              <ul class="mb-0">
+                <li>Documento com foto e CPF</li>
+                <li>Celular com o número que você usa</li>
+                <li>Um e-mail que você consiga abrir (se tiver)</li>
+              </ul>
+            </div>
+            <p class="card-footer fw-bold text-primary mb-0">Tempo médio: 20 min</p>
+          </article>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h2 class="card-title h5">Meu INSS</h2>
+              <p class="card-text">Consultar extrato de pagamento, pedir benefícios e acompanhar pedidos já feitos.</p>
+              <h3 class="h6 text-uppercase text-body-secondary">O que levar</h3>
+              <ul class="mb-0">
+                <li>Documento com foto e CPF</li>
+                <li>Acesso à conta gov.br (se não tiver, agende os dois serviços)</li>
+                <li>Número do benefício, se já tiver</li>
+              </ul>
+            </div>
+            <p class="card-footer fw-bold text-primary mb-0">Tempo médio: 30 min</p>
+          </article>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h2 class="card-title h5">Carteira de Trabalho Digital</h2>
+              <p class="card-text">Consultar seus empregos registrados e mostrar a carteira para um novo empregador.</p>
+              <h3 class="h6 text-uppercase text-body-secondary">O que levar</h3>
+              <ul class="mb-0">
+                <li>Documento com foto e CPF</li>
+                <li>Acesso à conta gov.br</li>
+                <li>Celular com espaço para instalar o aplicativo</li>
+              </ul>
+            </div>
+            <p class="card-footer fw-bold text-primary mb-0">Tempo médio: 20 min</p>
+          </article>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h2 class="card-title h5">Currículo e vagas de emprego</h2>
+              <p class="card-text">Montar ou atualizar o currículo, imprimir cópias e se candidatar a vagas pela internet.</p>
+              <h3 class="h6 text-uppercase text-body-secondary">O que levar</h3>
+              <ul class="mb-0">
+                <li>Lista dos empregos anteriores, com datas</li>
+                <li>Escolaridade e cursos que você fez</li>
+                <li>Um e-mail (se não tiver, a gente ajuda a criar)</li>
+              </ul>
+            </div>
+            <p class="card-footer fw-bold text-primary mb-0">Tempo médio: 40 min</p>
+          </article>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h2 class="card-title h5">2ª via de contas</h2>
+              <p class="card-text">Emitir segunda via de conta de água, luz e outros boletos para pagar em dia.</p>
+              <h3 class="h6 text-uppercase text-body-secondary">O que levar</h3>
+              <ul class="mb-0">
+                <li>Uma conta antiga ou o número de cliente/instalação</li>
+                <li>CPF do titular da conta</li>
+              </ul>
+            </div>
+            <p class="card-footer fw-bold text-primary mb-0">Tempo médio: 10 min</p>
+          </article>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h2 class="card-title h5">Impressão e digitalização</h2>
+              <p class="card-text">Imprimir, copiar e escanear documentos para enviar pela internet.</p>
+              <h3 class="h6 text-uppercase text-body-secondary">O que levar</h3>
+              <ul class="mb-0">
+                <li>O documento original</li>
+                <li>Ou o arquivo no celular ou no pen drive</li>
+              </ul>
+            </div>
+            <p class="card-footer fw-bold text-primary mb-0">Tempo médio: 5 min</p>
+          </article>
+        </div>
+
+      </div>
+
+      <p class="small text-body-secondary mt-4">
+        As orientações são um resumo para o protótipo. Confira sempre as regras atualizadas
+        nos sites oficiais, como <a href="https://www.gov.br" target="_blank" rel="noopener noreferrer">gov.br</a>.
+      </p>
+    </section>
+
+    <!-- Tabela de valores (fictícios) -->
+    <section class="py-5 bg-body-tertiary" id="valores" aria-labelledby="titulo-valores">
+      <div class="container">
+        <h2 id="titulo-valores">Valores</h2>
+        <p>O atendimento tem preço social. Algumas pessoas não pagam nada, graças a parcerias.</p>
+
+        <div class="table-responsive">
+          <table class="table table-striped align-middle">
+            <caption>Valores fictícios usados apenas no protótipo.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Serviço</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Observação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Atendimento assistido (até 30 min)</td>
+                <td>R$ 6,00</td>
+                <td>Inclui o passo a passo com o atendente</td>
+              </tr>
+              <tr>
+                <td>Impressão preto e branco</td>
+                <td>R$ 1,00 por página</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Digitalização de documento</td>
+                <td>R$ 1,50 por página</td>
+                <td>Enviamos o arquivo para o seu celular</td>
+              </tr>
+              <tr>
+                <td>Gratuidade</td>
+                <td>R$ 0,00</td>
+                <td>Pessoas com 60 anos ou mais, pessoas com deficiência e famílias encaminhadas pelo CRAS (parceria)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <a class="btn btn-primary mt-2" href="agendar.html">Agendar atendimento</a>
+      </div>
+    </section>
+
+  </main>
+
+    <!-- Rodapé -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center">
+      <p class="mb-0">&copy; <span id="ano-atual">2026</span> Ponto Digital Cidadão.</p>
+      <ul class="list-inline mb-0">
+        <li class="list-inline-item"><a class="link-light" href="sobre.html#privacidade">Aviso de privacidade</a></li>
+        <li class="list-inline-item"><a class="link-light" href="sobre.html">Sobre o projeto</a></li>
+        <li class="list-inline-item"><a class="link-light" href="#conteudo">Voltar ao topo</a></li>
+      </ul>
+    </div>
+  </footer>
+
 </body>
 </html>

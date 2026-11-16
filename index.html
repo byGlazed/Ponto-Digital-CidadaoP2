@@ -3,9 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ponto Digital Cidadão: ajuda presencial na lan house do bairro para acessar gov.br, INSS, Carteira de Trabalho Digital e outros serviços on-line.">
     <title>Ponto Digital Cidadão | Início</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
+  <!-- Cabeçalho e menu (navbar do Bootstrap) -->
+  <header>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark" aria-label="Menu principal">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">
+          <span class="badge text-bg-warning me-1" aria-hidden="true">PD</span>
+          Ponto Digital Cidadão
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal"
+                aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menu-principal">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Início</a></li>
+            <li class="nav-item"><a class="nav-link" href="servicos.html">Serviços e o que levar</a></li>
+            <li class="nav-item"><a class="nav-link" href="agendar.html">Agendar atendimento</a></li>
+            <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre e privacidade</a></li>
+          </ul>
+          <div class="botoes-acessibilidade d-flex flex-wrap gap-2 py-2 py-lg-0 ms-lg-3">
+            <button type="button" id="btn-fonte" class="btn btn-sm btn-outline-light" aria-pressed="false">A+ Aumentar letra</button>
+            <button type="button" id="btn-tema" class="btn btn-sm btn-outline-light">Modo escuro</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main id="conteudo">
+    <!-- Destaque principal -->
+    <section class="hero text-white py-5" aria-labelledby="titulo-hero">
+      <div class="container hero__conteudo">
+        <div class="hero__texto">
+          <p class="badge rounded-pill text-bg-light">Inclusão digital no seu bairro</p>
+          <h1 id="titulo-hero" class="fw-bold">Serviços digitais com ajuda de verdade, perto de casa</h1>
+          <p class="lead">
+            Precisa entrar no <strong>gov.br</strong>, consultar o <strong>Meu INSS</strong>,
+            baixar a <strong>Carteira de Trabalho Digital</strong> ou mandar um currículo e
+            não tem computador ou não sabe por onde começar? A lan house do bairro te ajuda.
+            Você agenda o horário e já sabe <em>o que levar</em>, sem fila e sem perder a viagem.
+          </p>
+          <div class="hero__acoes">
+            <a class="btn btn-warning btn-lg fw-bold" href="agendar.html">Agendar atendimento</a>
+            <a class="btn btn-outline-light btn-lg" href="servicos.html">Ver o que levar</a>
+          </div>
+        </div>
+
+        <aside class="cartao-dica card p-3 shadow" aria-labelledby="titulo-dica">
+          <h2 id="titulo-dica" class="h5">Antes de sair de casa</h2>
+          <ul>
+            <li>Documento com foto e CPF</li>
+            <li>Celular com o número que você usa (para receber códigos)</li>
+            <li>Papéis do serviço (veja o guia)</li>
+          </ul>
+          <a href="servicos.html">Veja o que levar em cada serviço</a>
+        </aside>
+      </div>
+    </section>
+    <!-- Problema e dados do IBGE -->
+    <section class="py-5" id="problema" aria-labelledby="titulo-problema">
+      <div class="container">
+        <h2 id="titulo-problema">Por que este projeto existe</h2>
+        <p class="lead text-body-secondary">
+          Quase tudo virou "faça pelo aplicativo". Só que muita gente tem apenas um celular simples,
+          com pouco pacote de dados, e nunca usou um computador. Para essas pessoas, a lan house
+          ainda é a porta de entrada para os serviços públicos.
+        </p>
+
+        <figure class="mt-4">
+          <div class="grid-dados">
+            <article class="card card-body shadow-sm">
+              <p class="display-6 fw-bold text-primary mb-0">88%</p>
+              <p class="mb-0">das pessoas com 10 anos ou mais usavam internet em 2023</p>
+            </article>
+            <article class="card card-body shadow-sm">
+              <p class="display-6 fw-bold text-primary mb-0">98,8%</p>
+              <p class="mb-0">desses usuários acessam pelo <strong>celular</strong></p>
+            </article>
+            <article class="card card-body shadow-sm">
+              <p class="display-6 fw-bold text-warning mb-0">34%</p>
+              <p class="mb-0">usam <strong>computador</strong> (eram 63% em 2016)</p>
+            </article>
+          </div>
+          <figcaption class="small text-body-secondary mt-2">Fonte: IBGE, PNAD Contínua TIC 2023.</figcaption>
+        </figure>
+      </div>
+    </section>
+    <!-- Como funciona -->
+    <section class="py-5 bg-body-tertiary" id="como-funciona" aria-labelledby="titulo-como">
+      <div class="container">
+        <h2 id="titulo-como">Como funciona</h2>
+        <ol class="passos list-unstyled">
+          <li class="card card-body">
+            <h3 class="h5">1. Escolha o serviço</h3>
+            <p class="mb-0">Veja no <a href="servicos.html">guia de serviços</a> o que vai precisar levar.</p>
+          </li>
+          <li class="card card-body">
+            <h3 class="h5">2. Agende o horário</h3>
+            <p class="mb-0">Informe só um apelido, o serviço, o dia e a hora. Não pedimos CPF nem senha.</p>
+          </li>
+          <li class="card card-body">
+            <h3 class="h5">3. Seja atendido</h3>
+            <p class="mb-0">Um atendente faz o passo a passo com você, e você aprende a fazer sozinho da próxima vez.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+    <!-- Público atendido -->
+    <section class="py-5" id="para-quem" aria-labelledby="titulo-quem">
+      <div class="container">
+        <h2 id="titulo-quem">Para quem é</h2>
+        <ul class="lista-publico list-unstyled">
+          <li class="badge rounded-pill text-bg-light border fs-6 fw-normal">Idosos e aposentados</li>
+          <li class="badge rounded-pill text-bg-light border fs-6 fw-normal">Quem não tem computador em casa</li>
+          <li class="badge rounded-pill text-bg-light border fs-6 fw-normal">Quem procura emprego</li>
+          <li class="badge rounded-pill text-bg-light border fs-6 fw-normal">Famílias que recebem benefícios sociais</li>
+          <li class="badge rounded-pill text-bg-light border fs-6 fw-normal">Quem tem pouco pacote de dados</li>
+          <li class="badge rounded-pill text-bg-light border fs-6 fw-normal">Pessoas com deficiência</li>
+        </ul>
+        <a class="btn btn-primary mt-3" href="agendar.html">Quero agendar meu atendimento</a>
+      </div>
+    </section>
+  </main>
+  <!-- Rodapé -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center">
+      <p class="mb-0">&copy; <span id="ano-atual">2026</span> Ponto Digital Cidadão.</p>
+      <ul class="list-inline mb-0">
+        <li class="list-inline-item"><a class="link-light" href="sobre.html#privacidade">Aviso de privacidade</a></li>
+        <li class="list-inline-item"><a class="link-light" href="sobre.html">Sobre o projeto</a></li>
+        <li class="list-inline-item"><a class="link-light" href="#conteudo">Voltar ao topo</a></li>
+      </ul>
+    </div>
+  </footer>
+
 </body>
 </html>
