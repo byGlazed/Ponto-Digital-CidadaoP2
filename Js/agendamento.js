@@ -1,0 +1,200 @@
+// -----------------------------------------------------
+// ELEMENTOS DA PÁGINA
+// -----------------------------------------------------
+const formulario = document.querySelector("#form-agendamento");
+const campoApelido = document.querySelector("#apelido");
+const campoContato = document.querySelector("#contato");
+const campoServico = document.querySelector("#servico");
+const campoData = document.querySelector("#data");
+const campoHorario = document.querySelector("#horario");
+const campoObservacao = document.querySelector("#observacao");
+const campoConsentimento = document.querySelector("#consentimento");
+const contadorObservacao = document.querySelector("#contador-observacao");
+const mensagem = document.querySelector("#mensagem-form");
+const tituloFormulario = document.querySelector("#titulo-form");
+const botaoSalvar = document.querySelector("#btn-salvar");
+const botaoCancelar = document.querySelector("#btn-cancelar-edicao");
+const lista = document.querySelector("#lista-agendamentos");
+const listaVazia = document.querySelector("#lista-vazia");
+const totalAgendamentos = document.querySelector("#total-agendamentos");
+const listaRegistros = document.querySelector("#lista-registros");
+const registrosVazio = document.querySelector("#registros-vazio");
+const botaoLimparRegistros = document.querySelector("#btn-limpar-registros");
+
+
+// -----------------------------------------------------
+// DADOS
+// -----------------------------------------------------
+const SERVICOS = {
+  "gov-br": "Conta gov.br",
+  "inss": "Meu INSS",
+  "carteira-trabalho": "Carteira de Trabalho Digital",
+  "curriculo": "Currículo e vagas de emprego",
+  "contas": "2ª via de contas",
+  "impressao": "Impressão e digitalização"
+};
+
+const VAGAS_POR_HORARIO = 2; // computadores disponíveis
+
+// Cada agendamento: { id, apelido, contato, servico, data, horario, observacao }
+let agendamentos = [];
+
+// Guarda o id do agendamento que está sendo editado (null = novo agendamento)
+let idEmEdicao = null;
+
+
+// -----------------------------------------------------
+// FUNÇÕES DE APOIO
+// -----------------------------------------------------
+function doisDigitos(numero) {
+  return String(numero).padStart(2, "0");
+}
+
+// Date → "17/11/2026 08:30"
+function formatarDataHora(data) {
+  return doisDigitos(data.getDate()) + "/" + doisDigitos(data.getMonth() + 1) + "/" +
+    data.getFullYear() + " " + doisDigitos(data.getHours()) + ":" + doisDigitos(data.getMinutes());
+}
+
+// "2026-11-17" → "17/11/2026"
+function formatarData(texto) {
+  const partes = texto.split("-");
+  return partes[2] + "/" + partes[1] + "/" + partes[0];
+}
+
+// Date → "2026-11-17" (formato do input date)
+function dataParaTexto(data) {
+  return data.getFullYear() + "-" + doisDigitos(data.getMonth() + 1) + "-" + doisDigitos(data.getDate());
+}
+
+// "Meu INSS em 17/11/2026 às 09:00"
+function descrever(agendamento) {
+  return SERVICOS[agendamento.servico] + " em " + formatarData(agendamento.data) + " às " + agendamento.horario;
+}
+
+// tipo: "success", "danger" ou "info" (alertas do Bootstrap)
+function mostrarMensagem(texto, tipo) {
+  mensagem.textContent = texto;
+  mensagem.className = "alert alert-" + tipo;
+  mensagem.hidden = false;
+}
+
+
+// -----------------------------------------------------
+// REGISTRO DE ATIVIDADES
+// -----------------------------------------------------
+function registrarAtividade(texto, deuCerto) {
+  const item = document.createElement("li");
+  item.className = "border-start border-3 ps-2 mb-2 " + (deuCerto ? "border-success" : "border-danger");
+  item.textContent = formatarDataHora(new Date()) + " — " + texto;
+
+  listaRegistros.prepend(item); // o mais recente fica em cima
+  registrosVazio.hidden = true;
+}
+
+
+// -----------------------------------------------------
+// VALIDAÇÃO
+// O HTML5 já barra campo vazio e formato errado (required,
+// pattern, min, max). Aqui ficam as regras que o HTML
+// sozinho não consegue verificar.
+// -----------------------------------------------------
+function lerFormulario() {
+  return {
+    apelido: campoApelido.value.trim(),
+    contato: campoContato.value.trim(),
+    servico: campoServico.value,
+    data: campoData.value,
+    horario: campoHorario.value,
+    observacao: campoObservacao.value.trim()
+  };
+}
+
+function validarData(texto) {
+  if (texto === "") {
+    return "Escolha o dia do atendimento.";
+  }
+
+  const partes = texto.split("-");
+  const data = new Date(partes[0], partes[1] - 1, partes[2]);
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  const limite = new Date(hoje);
+  limite.setDate(limite.getDate() + 60);
+
+  if (isNaN(data.getTime())) return "Data inválida.";
+  if (data < hoje) return "A data não pode estar no passado.";
+  if (data > limite) return "Agende com no máximo 60 dias de antecedência.";
+  if (data.getDay() === 0) return "Não abrimos aos domingos. Escolha outro dia.";
+  return "";
+}
+
+// Conta quantos agendamentos já existem no mesmo dia e horário
+function horarioLotado(data, horario) {
+  const ocupados = agendamentos.filter(function (item) {
+    return item.data === data && item.horario === horario && item.id !== idEmEdicao;
+  });
+  return ocupados.length >= VAGAS_POR_HORARIO;
+}
+
+// Devolve um objeto { campo: "mensagem de erro" }. Vazio = tudo certo.
+function validarFormulario(dados) {
+  const erros = {};
+
+  if (dados.apelido.length < 2 || dados.apelido.length > 40) {
+    erros.apelido = "O apelido precisa ter de 2 a 40 letras.";
+  } else if (!/^[A-Za-zÀ-ÿ ]+$/.test(dados.apelido)) {
+    erros.apelido = "Use só letras e espaços.";
+  }
+
+  if (dados.contato !== "" && !/^\(?\d{2}\)?\s?9\d{4}-?\d{4}$/.test(dados.contato)) {
+    erros.contato = "Use o formato (11) 91234-5678.";
+  }
+
+  // Confere se o serviço existe mesmo na lista (o <select> pode ser alterado pelo DevTools)
+  if (!Object.keys(SERVICOS).includes(dados.servico)) {
+    erros.servico = "Escolha um serviço da lista.";
+  }
+
+  const erroData = validarData(dados.data);
+  if (erroData !== "") {
+    erros.data = erroData;
+  }
+
+  // "HH:MM" pode ser comparado como texto: "08:00" < "09:30"
+  if (dados.horario < "08:00" || dados.horario > "17:30") {
+    erros.horario = "Atendemos das 08:00 às 17:30.";
+  } else if (!dados.horario.endsWith(":00") && !dados.horario.endsWith(":30")) {
+    erros.horario = "Escolha um horário cheio ou de meia hora.";
+  } else if (horarioLotado(dados.data, dados.horario)) {
+    erros.horario = "Esse horário já está lotado. Escolha outro.";
+  }
+
+  // LGPD: bloqueia números longos (CPF, RG, cartão) e senhas na observação
+  if (dados.observacao.length > 200) {
+    erros.observacao = "Use no máximo 200 caracteres.";
+  } else if (/(\d[.\-\s]?){9,}/.test(dados.observacao) || /senha\s*(é|e|:|=)/i.test(dados.observacao)) {
+    erros.observacao = "Por segurança, não escreva CPF, senhas nem números de documentos aqui.";
+  }
+
+  if (!campoConsentimento.checked) {
+    erros.consentimento = "Marque esta opção para continuar.";
+  }
+
+  return erros;
+}
+
+// is-invalid é a classe do Bootstrap que deixa o campo vermelho
+// e mostra a mensagem que está no .invalid-feedback
+function mostrarErros(erros) {
+  for (const campo in erros) {
+    document.querySelector("#" + campo).classList.add("is-invalid");
+    document.querySelector("#erro-" + campo).textContent = erros[campo];
+  }
+}
+
+function limparErros() {
+  formulario.querySelectorAll(".is-invalid").forEach(function (campo) {
+    campo.classList.remove("is-invalid");
+  });
+}
