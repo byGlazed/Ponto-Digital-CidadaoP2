@@ -29,7 +29,11 @@ function aplicarFonteGrande(ligada) {
 // O Bootstrap 5.3 tem modo escuro pronto: basta trocar o data-bs-theme do <html>
 function aplicarModoEscuro(ligado) {
   pagina.setAttribute("data-bs-theme", ligado ? "dark" : "light");
-  botaoTema.textContent = ligado ? "☀️ Modo claro" : "🌙 Modo escuro";
+
+  // Ícone do Bootstrap Icons + texto (aria-hidden: o leitor de tela lê só o texto)
+  botaoTema.innerHTML = ligado
+    ? '<i class="bi bi-sun-fill me-1" aria-hidden="true"></i>Modo claro'
+    : '<i class="bi bi-moon-fill me-1" aria-hidden="true"></i>Modo escuro';
 }
 
 

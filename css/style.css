@@ -1,0 +1,181 @@
+/* ---------- 1. BASE ---------- */
+
+/* Flexbox em coluna: o rodapé fica sempre no fim da tela */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+
+/* ---------- 2. NAVBAR ---------- */
+
+/* Desktop (a partir de 992px, onde o menu do Bootstrap abre):
+   marca à esquerda, links no centro, botões à direita */
+@media (min-width: 992px) {
+  .navbar > .container {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+
+  /* O "collapse" some da grade e os filhos dele viram itens do grid */
+  .navbar-expand-lg .navbar-collapse {
+    display: contents !important;
+  }
+
+  /* Tira o ms-auto do Bootstrap e centraliza os links */
+  .navbar-nav.ms-auto {
+    margin-left: 0 !important;
+    justify-self: center;
+  }
+
+  .botoes-acessibilidade {
+    justify-self: end;
+  }
+}
+
+
+/* ---------- 3. PÁGINA INÍCIO ---------- */
+.hero {
+  background: linear-gradient(135deg, #0d6efd, #0a3d91);
+}
+
+.hero__conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero__acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Números do IBGE e passos: 1 coluna no celular */
+.grid-dados,
+.passos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* Etiquetas do público quebram linha sozinhas */
+.lista-publico {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+
+/* ---------- 4. PÁGINAS SERVIÇOS E SOBRE ---------- */
+.texto-largo {
+  max-width: 800px;
+}
+
+.lista-ods {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+
+/* ---------- 5. PÁGINA AGENDAR: LAYOUT ---------- */
+
+/* Grid com áreas nomeadas. Celular: tudo em uma coluna */
+.layout-agendar {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "form"
+    "lista"
+    "registros";
+  gap: 20px;
+}
+
+.area-form      { grid-area: form; }
+.area-lista     { grid-area: lista; }
+.area-registros { grid-area: registros; }
+
+
+/* ---------- 6. PÁGINA AGENDAR: LISTA E REGISTROS ---------- */
+
+/* Apelidos e observações longas quebram linha em vez de estourar o card */
+#lista-agendamentos li {
+  overflow-wrap: anywhere;
+}
+
+/* O registro não cresce para sempre: ganha barra de rolagem */
+.lista-registros {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+
+/* ---------- 7. ACESSIBILIDADE ---------- */
+
+/* Letra maior: o Bootstrap usa rem, então tudo cresce junto */
+html.fonte-grande {
+  font-size: 118.75%;
+}
+
+
+/* ---------- 8. MEDIA QUERIES ---------- */
+
+/* Tablet: a partir de 768px */
+@media (min-width: 768px) {
+
+  .hero__acoes {
+    flex-direction: row;
+  }
+
+  .grid-dados,
+  .passos {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lista-ods {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Formulário em cima; lista e registros lado a lado */
+  .layout-agendar {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "form  form"
+      "lista registros";
+  }
+}
+
+/* Desktop: a partir de 1024px */
+@media (min-width: 1024px) {
+
+  /* Texto à esquerda e cartão de dica à direita */
+  .hero__conteudo {
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .cartao-dica {
+    flex: 0 0 340px;
+  }
+
+  .lista-ods {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Formulário à esquerda; lista e registros à direita */
+  .layout-agendar {
+    grid-template-columns: 5fr 7fr;
+    grid-template-areas:
+      "form lista"
+      "form registros";
+    align-items: start;
+  }
+}
